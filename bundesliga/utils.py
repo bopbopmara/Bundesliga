@@ -3,6 +3,11 @@ from datetime import date
 
 matchday_url = lambda league: 'https://www.openligadb.de/api/getcurrentgroup/{}'.format(league)
 
+matches_for_league_url = lambda league, year: 'https://www.openligadb.de/api/getmatchdata/{league}/{year}'.format(
+    league=league,
+    year=year,
+)
+
 matches_for_matchday_url = lambda league, year, matchday: 'https://www.openligadb.de/api/getmatchdata/{league}/{year}/{matchday}'.format(
     league=league,
     year=year,
@@ -48,3 +53,25 @@ def retrieve_upcoming_matches(league):
         matches_data = response.json()
 
     return matches_data
+
+
+def retrieve_all_matches(league):
+    # Try to retrieve matches for the tournament edition that started this year
+    year = date.today().year
+    response = requests.get(matches_for_league_url(league, year))
+    if response.status_code != 200:
+        return [], None
+
+    matches_data = response.json()
+
+    # If no matches are found we're probably at the second
+    # half of the tournament edition that started last year
+    if not matches_data:
+        year -= 1
+        response = requests.get(matches_for_league_url(league, year))
+        if response.status_code != 200:
+            return [], None
+
+        matches_data = response.json()
+
+    return matches_data, year

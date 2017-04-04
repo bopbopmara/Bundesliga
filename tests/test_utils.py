@@ -3,6 +3,7 @@ from unittest.mock import patch
 from freezegun import freeze_time
 
 from bundesliga.utils import (
+    retrieve_all_matches,
     retrieve_upcoming_matches,
 )
 
@@ -209,3 +210,76 @@ def test_retrieve_upcoming_matches():
                 'MatchIsFinished': False,
             },
         ]
+
+
+@freeze_time('2017-06-01')
+def test_retrieve_all_matches():
+    # The matches are for the tournament edition that started this year
+    def requests_get(url):
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
+            return APIResponse(status_code=500)
+
+    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+        assert retrieve_all_matches('bl1') == ([], None)
+
+    def requests_get(url):
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
+            return APIResponse(content=[
+                {
+                    'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
+                    'MatchIsFinished': True,
+                },
+                {
+                    'MatchDateTimeUTC': '2017-07-26T20:00:00Z',
+                    'MatchIsFinished': False,
+                },
+            ])
+
+    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+        assert retrieve_all_matches('bl1') == ([
+            {
+                'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
+                'MatchIsFinished': True,
+            },
+            {
+                'MatchDateTimeUTC': '2017-07-26T20:00:00Z',
+                'MatchIsFinished': False,
+            },
+        ], 2017)
+
+    # The matches are for the tournament edition that started last year
+    def requests_get(url):
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
+            return APIResponse(content=[])
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2016':
+            return APIResponse(status_code=500)
+
+    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+        assert retrieve_all_matches('bl1') == ([], None)
+
+    def requests_get(url):
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
+            return APIResponse(content=[])
+        if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2016':
+            return APIResponse(content=[
+                {
+                    'MatchDateTimeUTC': '2016-06-26T18:30:00Z',
+                    'MatchIsFinished': True,
+                },
+                {
+                    'MatchDateTimeUTC': '2017-06-26T20:00:00Z',
+                    'MatchIsFinished': False,
+                },
+            ])
+
+    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+        assert retrieve_all_matches('bl1') == ([
+            {
+                'MatchDateTimeUTC': '2016-06-26T18:30:00Z',
+                'MatchIsFinished': True,
+            },
+            {
+                'MatchDateTimeUTC': '2017-06-26T20:00:00Z',
+                'MatchIsFinished': False,
+            },
+        ], 2016)
