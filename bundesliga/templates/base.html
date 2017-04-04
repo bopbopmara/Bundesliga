@@ -1,0 +1,124 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <style>
+            .dropdown-submenu:hover>.dropdown-menu {
+                display: block;
+            }
+            .dropdown-menu>li.dropdown-submenu>a:hover, .dropdown-menu>li.dropdown-submenu>a:focus {
+                background-color: transparent;
+            }
+            .navbar-header img {
+                padding-right: 30px;
+                height: 50px;
+            }
+            #navbar .dropdown-menu a {
+                padding: 3px 20px 3px 10px;
+            }
+            #matches {
+                overflow-x: visible;
+            }
+            #standings {
+                overflow-x: auto;
+            }
+            .table span {
+                display: inline-block;
+                width: 35px;
+                text-align: center;
+            }
+            .table span img {
+                max-height: 15px;
+                padding: 0;
+                border: 1px solid #ddd;
+                margin-bottom: 5px;
+            }
+            .center {
+                text-align: center;
+            }
+            .bold {
+                font-weight: bold;
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-light">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="true" data-target="#navbar" data-toggle="collapse" class="navbar-toggle" type="button">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="{{ url_for('standings') }}">
+                        <img src="http://s.bundesliga.com/2016/img/logo2_svg.svg" class="img-responsive" alt="Bundesliga">
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;
+                                Upcoming Matches
+                                &nbsp;<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for league in leagues %}
+                                    <li>
+                                        <a href="{{ url_for('upcoming_matches', league=league[0]) }}">
+                                            {{ league[1] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;
+                                All Matches
+                                &nbsp;<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for league in leagues %}
+                                    <li>
+                                        <a href="{{ url_for('all_matches', league=league[0]) }}">
+                                            {{ league[1] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;
+                                Standings
+                                &nbsp;<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% for league in leagues %}
+                                    <li>
+                                        <a href="{{ url_for('standings', league=league[0]) }}">
+                                            {{ league[1] }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+
+    </body>
+</html>

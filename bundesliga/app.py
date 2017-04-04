@@ -8,6 +8,7 @@ from bundesliga.utils.api import (
     retrieve_upcoming_matches,
 )
 from bundesliga.utils.app import (
+    league_name,
     matches_from_data,
     standings_from_data,
 )
@@ -21,8 +22,9 @@ def upcoming_matches(league):
         abort(404)
 
     context = {
-        'title': 'Upcoming',
+        'title': 'Upcoming Matches: {}'.format(league_name(league)),
         'matches': matches_from_data(retrieve_upcoming_matches(league)),
+        'leagues': settings.LEAGUES,
     }
     return render_template('matches.html', **context)
 
@@ -33,8 +35,9 @@ def all_matches(league):
         abort(404)
 
     context = {
-        'title': 'All',
+        'title': 'All Matches: {}'.format(league_name(league)),
         'matches': matches_from_data(retrieve_all_matches(league)[0]),
+        'leagues': settings.LEAGUES,
     }
     return render_template('matches.html', **context)
 
@@ -49,6 +52,8 @@ def standings(league=None):
         abort(404)
 
     context = {
+        'title': 'Standings: {}'.format(league_name(league)),
         'standings': standings_from_data(build_statistics(league)),
+        'leagues': settings.LEAGUES,
     }
     return render_template('standings.html', **context)

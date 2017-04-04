@@ -1,10 +1,45 @@
-<h1>{{ title }}</h1>
+{% extends 'base.html' %}
 
-{% for match in matches %}
-    {{ match.start_time }},&nbsp;
-    {{ match.host }} - {{ match.guest }}&nbsp;
-    {% if match.host_score is not none %}{{ match.host_score }}{% else %}?{% endif %}
-    :
-    {% if match.guest_score is not none %}{{ match.guest_score }}{% else %}?{% endif %}
-    <br>
-{% endfor %}
+{% block content %}
+    <div class="panel panel-default" id="matches">
+        <div class="panel-heading">
+            <strong>
+                {{ title }}
+            </strong>
+        </div>
+        {% if matches %}
+            <table class="table">
+                <tr>
+                    <th>Start Time</th>
+                    <th>Host</th>
+                    <th>Guest</th>
+                    <th class="center">Result</th>
+                </tr>
+                {% for match in matches %}
+                    <tr>
+                        <td>{{ match.start_time }}</td>
+                        <td>
+                            <span>
+                                <img src="{{ match.host.image }}" alt="">
+                            </span>
+                            {{ match.host }}
+                        </td>
+                        <td>
+                            <span>
+                                <img src="{{ match.guest.image }}" alt="">
+                            </span>
+                            {{ match.guest }}
+                        </td>
+                        <td class="center">
+                            {% if match.host_score is not none and match.guest_score is not none %}
+                                {{ match.host_score }} : {{ match.guest_score }}
+                            {% else %}
+                                ? : ?
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

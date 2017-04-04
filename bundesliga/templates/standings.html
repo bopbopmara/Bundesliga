@@ -1,3 +1,42 @@
-{% for standing in standings %}
-    {{ standing.team.name }}, {{ standing.points }}, {{ standing.wins }}, {{ standing.draws }}, {{ standing.losses }}, {{ standing.difference }}<br>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="panel panel-default" id="standings">
+        <div class="panel-heading">
+            <strong>
+                {{ title }}
+            </strong>
+        </div>
+        {% if standings %}
+            <table class="table">
+                <tr>
+                    <th class="center">Rank</th>
+                    <th>Team</th>
+                    <th class="center">Played</th>
+                    <th class="center">Wins</th>
+                    <th class="center">Draws</th>
+                    <th class="center">Losses</th>
+                    <th class="center">Difference</th>
+                    <th class="center">Points</th>
+                </tr>
+                {% for standing in standings %}
+                    <tr>
+                        <td class="center">{{ loop.index }}</td>
+                        <td>
+                            <span>
+                                <img src="{{ standing.team.image }}" alt="">
+                            </span>
+                            {{ standing.team }}
+                        </td>
+                        <td class="center">{{ standing.wins + standing.draws + standing.losses }}</td>
+                        <td class="center">{{ standing.wins }}</td>
+                        <td class="center">{{ standing.draws }}</td>
+                        <td class="center">{{ standing.losses }}</td>
+                        <td class="center">{{ standing.difference }}</td>
+                        <td class="center bold">{{ standing.points }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
