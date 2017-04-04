@@ -1,0 +1,4 @@
+-r common.txt
+
+freezegun==0.3.8
+pytest==3.0.7
