@@ -1,0 +1,5 @@
+<h1>{{ title }}</h1>
+
+{% for match in matches %}
+    {{ match.start_time }}, {{ match.host }} - {{ match.guest }}<br>
+{% endfor %}
