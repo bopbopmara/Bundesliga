@@ -1,5 +1,6 @@
 from dateutil.parser import parse
 
+from bundesliga import settings
 from bundesliga.resources import (
     Match,
     Team,
@@ -32,3 +33,10 @@ def standings_from_data(statistics_data):
         standings.append(TeamStanding(Team(team_name, team_image), **team_statistics))
 
     return sorted(standings, key=lambda team_standing: (-team_standing.points, -team_standing.difference))
+
+
+def league_name(league_short_name):
+    for short_name, full_name in settings.LEAGUES:
+        if short_name == league_short_name:
+            return full_name
+    return ''

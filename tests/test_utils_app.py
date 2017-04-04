@@ -1,9 +1,21 @@
 from datetime import datetime, timezone
+from unittest.mock import patch
 
 from bundesliga.utils.app import (
+    league_name,
     matches_from_data,
     standings_from_data,
 )
+
+
+def test_league_name():
+    with patch('bundesliga.utils.app.settings', LEAGUES=[
+        ('bl1', 'Bundesliga'),
+        ('pd', 'Primera División'),
+    ]):
+        assert league_name('bl1') == 'Bundesliga'
+        assert league_name('pd') == 'Primera División'
+        assert league_name('bl2') == ''
 
 
 def test_matches_from_data():
