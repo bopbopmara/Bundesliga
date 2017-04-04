@@ -39,6 +39,7 @@ def test_standings_from_data():
             'draws': 5,
             'losses': 6,
             'difference': 14,
+            'image': None,
         },
         'Eintracht Braunschweig': {
             'points': 50,
@@ -46,6 +47,7 @@ def test_standings_from_data():
             'draws': 8,
             'losses': 4,
             'difference': 14,
+            'image': None,
         },
         'Hannover 96': {
             'points': 49,
@@ -53,6 +55,7 @@ def test_standings_from_data():
             'draws': 7,
             'losses': 5,
             'difference': 13,
+            'image': None,
         },
         'VfB Stuttgart': {
             'points': 50,
@@ -60,10 +63,11 @@ def test_standings_from_data():
             'draws': 5,
             'losses': 6,
             'difference': 15,
+            'image': None,
         },
     })
     assert len(standings) == 4
-    assert standings[0].name == 'VfB Stuttgart'
-    assert standings[1].name in ['1. FC Union Berlin', 'Eintracht Braunschweig']
-    assert standings[2].name in ['1. FC Union Berlin', 'Eintracht Braunschweig']
-    assert standings[3].name == 'Hannover 96'
+    assert standings[0].team.name == 'VfB Stuttgart'
+    assert standings[1].team.name in ['1. FC Union Berlin', 'Eintracht Braunschweig']
+    assert standings[2].team.name in ['1. FC Union Berlin', 'Eintracht Braunschweig']
+    assert standings[3].team.name == 'Hannover 96'

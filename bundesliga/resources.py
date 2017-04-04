@@ -25,8 +25,8 @@ class Match(object):
 
 
 class TeamStanding(object):
-    def __init__(self, name, wins=0, draws=0, losses=0, points=0, difference=0):
-        self.name = name
+    def __init__(self, team, wins=0, draws=0, losses=0, points=0, difference=0):
+        self.team = team
         self.wins = wins
         self.draws = draws
         self.losses = losses
@@ -34,4 +34,4 @@ class TeamStanding(object):
         self.difference = difference
 
     def __str__(self):
-        return self.name
+        return self.team.name

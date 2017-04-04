@@ -98,7 +98,15 @@ def build_statistics(league):
     matches_data, year = retrieve_all_matches(league)
 
     statistics = {
-        team['TeamName']: {'wins': 0, 'draws': 0, 'losses': 0, 'points': 0, 'difference': 0}
+        team['TeamName']: {
+            'wins': 0,
+            'draws': 0,
+            'losses': 0,
+            'points': 0,
+            'difference': 0,
+
+            'image': team['TeamIconUrl'],
+        }
         for team in retrieve_all_teams(league, year)
     }
 

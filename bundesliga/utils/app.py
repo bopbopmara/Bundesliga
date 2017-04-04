@@ -26,7 +26,9 @@ def matches_from_data(matches_data):
 
 
 def standings_from_data(statistics_data):
-    return sorted([
-        TeamStanding(team_name, **team_statistics)
-        for team_name, team_statistics in statistics_data.items()
-    ], key=lambda team_standing: (-team_standing.points, -team_standing.difference))
+    standings = []
+    for team_name, team_statistics in statistics_data.items():
+        team_image = team_statistics.pop('image')
+        standings.append(TeamStanding(Team(team_name, team_image), **team_statistics))
+
+    return sorted(standings, key=lambda team_standing: (-team_standing.points, -team_standing.difference))

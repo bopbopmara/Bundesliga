@@ -316,10 +316,10 @@ def test_build_statistics():
     def requests_get(url):
         if url == 'https://www.openligadb.de/api/getavailableteams/bl1/2016':
             return APIResponse(content=[
-                {'TeamName': 'Borussia Dortmund'},
-                {'TeamName': 'Bayern München'},
-                {'TeamName': 'RB Leipzig'},
-                {'TeamName': 'SV Darmstadt 98'},
+                {'TeamName': 'Borussia Dortmund', 'TeamIconUrl': 'http://www.openligadb.de/images/teamicons/Borussia_Dortmund.gif'},
+                {'TeamName': 'Bayern München', 'TeamIconUrl': 'http://www.openligadb.de/images/teamicons/Bayern_Muenchen.gif'},
+                {'TeamName': 'RB Leipzig', 'TeamIconUrl': 'http://www.sportal.de/photos/fussball/logos/35x35/1583.png'},
+                {'TeamName': 'SV Darmstadt 98', 'TeamIconUrl': 'http://www.openligadb.de/images/teamicons/SV_Darmstadt_98.gif'},
             ])
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
             return APIResponse(content=[])
@@ -394,6 +394,7 @@ def test_build_statistics():
         'losses': 1,
         'points': 7,
         'difference': 1,
+        'image': 'http://www.openligadb.de/images/teamicons/Borussia_Dortmund.gif',
     }
     assert statistics['Bayern München'] == {
         'wins': 1,
@@ -401,6 +402,7 @@ def test_build_statistics():
         'losses': 1,
         'points': 4,
         'difference': 2,
+        'image': 'http://www.openligadb.de/images/teamicons/Bayern_Muenchen.gif',
     }
     assert statistics['RB Leipzig'] == {
         'wins': 1,
@@ -408,6 +410,7 @@ def test_build_statistics():
         'losses': 2,
         'points': 3,
         'difference': -3,
+        'image': 'http://www.sportal.de/photos/fussball/logos/35x35/1583.png',
     }
     assert statistics['SV Darmstadt 98'] == {
         'wins': 0,
@@ -415,4 +418,5 @@ def test_build_statistics():
         'losses': 0,
         'points': 0,
         'difference': 0,
+        'image': 'http://www.openligadb.de/images/teamicons/SV_Darmstadt_98.gif',
     }
