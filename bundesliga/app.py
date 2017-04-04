@@ -9,7 +9,7 @@ from bundesliga.resources import (
     Team,
     TeamStanding,
 )
-from bundesliga.utils import (
+from bundesliga.utils.api import (
     build_statistics,
     retrieve_all_matches,
     retrieve_upcoming_matches,

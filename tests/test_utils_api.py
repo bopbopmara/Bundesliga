@@ -2,7 +2,7 @@ from unittest.mock import patch
 
 from freezegun import freeze_time
 
-from bundesliga.utils import (
+from bundesliga.utils.api import (
     build_statistics,
     retrieve_all_matches,
     retrieve_all_teams,
@@ -26,7 +26,7 @@ def test_retrieve_upcoming_matches():
         if url == 'https://www.openligadb.de/api/getcurrentgroup/bl1':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == []
 
     # The upcoming matches are for the current matchday of the tournament edition that started this year
@@ -36,7 +36,7 @@ def test_retrieve_upcoming_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017/2':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == []
 
     def requests_get(url):
@@ -54,7 +54,7 @@ def test_retrieve_upcoming_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == [
             {
                 'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
@@ -84,7 +84,7 @@ def test_retrieve_upcoming_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017/3':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == []
 
     def requests_get(url):
@@ -109,7 +109,7 @@ def test_retrieve_upcoming_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == [
             {
                 'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
@@ -126,7 +126,7 @@ def test_retrieve_upcoming_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2016/2':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == []
 
     def requests_get(url):
@@ -146,7 +146,7 @@ def test_retrieve_upcoming_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == [
             {
                 'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
@@ -178,7 +178,7 @@ def test_retrieve_upcoming_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2016/3':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == []
 
     def requests_get(url):
@@ -205,7 +205,7 @@ def test_retrieve_upcoming_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_upcoming_matches('bl1') == [
             {
                 'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
@@ -221,7 +221,7 @@ def test_retrieve_all_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2017':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_matches('bl1') == ([], None)
 
     def requests_get(url):
@@ -237,7 +237,7 @@ def test_retrieve_all_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_matches('bl1') == ([
             {
                 'MatchDateTimeUTC': '2017-06-26T18:30:00Z',
@@ -256,7 +256,7 @@ def test_retrieve_all_matches():
         if url == 'https://www.openligadb.de/api/getmatchdata/bl1/2016':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_matches('bl1') == ([], None)
 
     def requests_get(url):
@@ -274,7 +274,7 @@ def test_retrieve_all_matches():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_matches('bl1') == ([
             {
                 'MatchDateTimeUTC': '2016-06-26T18:30:00Z',
@@ -292,7 +292,7 @@ def test_retrieve_teams():
         if url == 'https://www.openligadb.de/api/getavailableteams/bl1/2016':
             return APIResponse(status_code=500)
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_teams('bl1', 2016) == []
 
     def requests_get(url):
@@ -303,7 +303,7 @@ def test_retrieve_teams():
                 {'TeamName': 'RB Leipzig'},
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         assert retrieve_all_teams('bl1', 2016) == [
             {'TeamName': 'Borussia Dortmund'},
             {'TeamName': 'Bayern München'},
@@ -384,7 +384,7 @@ def test_build_statistics():
                 },
             ])
 
-    with patch('bundesliga.utils.requests.get', side_effect=requests_get):
+    with patch('bundesliga.utils.api.requests.get', side_effect=requests_get):
         statistics = build_statistics('bl1')
 
     assert len(statistics.keys()) == 4
