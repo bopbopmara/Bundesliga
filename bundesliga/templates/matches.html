@@ -1,0 +1,10 @@
+<h1>{{ title }}</h1>
+
+{% for match in matches %}
+    {{ match.start_time }},&nbsp;
+    {{ match.host }} - {{ match.guest }}&nbsp;
+    {% if match.host_score is not none %}{{ match.host_score }}{% else %}?{% endif %}
+    :
+    {% if match.guest_score is not none %}{{ match.guest_score }}{% else %}?{% endif %}
+    <br>
+{% endfor %}

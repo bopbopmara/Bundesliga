@@ -20,7 +20,7 @@ def upcoming_matches(league):
     if league not in settings.ALLOWED_LEAGUES:
         abort(404)
 
-    return render_template('upcoming_matches.html', title='Upcoming', matches=matches_from_data(retrieve_upcoming_matches(league)))
+    return render_template('matches.html', title='Upcoming', matches=matches_from_data(retrieve_upcoming_matches(league)))
 
 
 @app.route('/<league>/all/')
@@ -28,7 +28,7 @@ def all_matches(league):
     if league not in settings.ALLOWED_LEAGUES:
         abort(404)
 
-    return render_template('all_matches.html', title='All', matches=matches_from_data(retrieve_all_matches(league)[0]))
+    return render_template('matches.html', title='All', matches=matches_from_data(retrieve_all_matches(league)[0]))
 
 
 @app.route('/')
